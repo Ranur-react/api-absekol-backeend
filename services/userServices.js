@@ -3,9 +3,12 @@ const { Op } = require('sequelize');
 const Role = require('../models/Role');
 const Student = require('../models/Student');
 const { createStudent, checkStudentAvailability: checkStudentAvailabilityServices } = require('./studentServices');
-const { createRole, getRoleParam,getRoleByPk } = require('./roleServices');
+const { createRole, getRoleParam, getRoleByPk } = require('./roleServices');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const Attendance = require('../models/Attendance');
+const GpsLog = require('../models/GpsLog');
+const NotificationLog = require('../models/notificationLog');
 // const envPath = path.resolve(__dirname, '../.env');
 // dotenv.config({ path: envPath });
 
@@ -51,10 +54,10 @@ const loginUser = async (content) => {
 const registerUser = async (content) => {
     try {
         //check nisn
-        if (content.nisn){
+        if (content.nisn) {
             //createUser is not available
             const studentIsAvailable = await checkStudentAvailabilityServices(content.nisn);
-            if (!studentIsAvailable){
+            if (!studentIsAvailable) {
                 await createStudent({
                     nisn: content.nisn,
                     nama: content.nama,
@@ -68,13 +71,13 @@ const registerUser = async (content) => {
             //dont create if available
         }
         //check contents are using role name?
-        if(content.roleName && !content.roleId){
-            const checkRoleId=await getRoleParam(content.roleName)
-            if(checkRoleId){
+        if (content.roleName && !content.roleId) {
+            const checkRoleId = await getRoleParam(content.roleName)
+            if (checkRoleId) {
                 content.roleId = checkRoleId.idRole;
-            }else{
-             const role=   await createRole({
-                    roleName:content.roleName
+            } else {
+                const role = await createRole({
+                    roleName: content.roleName
                 })
                 content.roleId = role.idRole;
             }
@@ -161,21 +164,30 @@ const getUserByParam = async (content) => {
 };
 const getUserByNoWa = async (param) => {
     try {
-       
-console.log('==============Get user by No WA======================');
-console.log(param);
-console.log('====================================');
+
+        console.log('==============Get user by No WA======================');
+        console.log(param);
+        console.log('====================================');
         const user = await User.findOne({
             where: {
                 noWa: param
             },
             order: [['createdAt', 'DESC']],
             include: [{
-                model: Student
+                model: Student,
+                include: [{
+                    model: Attendance,
+                    include: [{
+                        model: GpsLog
+                    }]
+                }]
             },
             {
                 model: Role
-            }]
+            }, {
+                model: NotificationLog
+            }
+            ]
         });
 
         return user;
@@ -207,5 +219,7 @@ const deleteUser = async (uid) => {
         throw error.errors ? error : new Error(`Error deleting: ${error.message}`);
     }
 }
-module.exports = { getUser, 
-    createUser, updateUser, deleteUser, loginUser, registerUser, getUserByParam, getUserByNoWa }
+module.exports = {
+    getUser,
+    createUser, updateUser, deleteUser, loginUser, registerUser, getUserByParam, getUserByNoWa
+}

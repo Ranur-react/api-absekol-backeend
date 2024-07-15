@@ -8,8 +8,11 @@ const Student=sequelize.define('Student',
         primaryKey:true,
         allowNull: false
     },
-    nama:{
+    jurusan:{
         type:DataTypes.STRING(50),
+    },
+    nama: {
+        type: DataTypes.STRING(50),
     },
     jenisKelamin:{
         type:DataTypes.ENUM('L',"P"),

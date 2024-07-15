@@ -9,13 +9,13 @@ const ConfigApp = require('./ConfigApp')
 const initializeDatabase = async()=>{
     try {
         await connectDB();
-        await Role.sync();
-        await Student.sync();
-        await User.sync();
-        await Attendance.sync();
-        await NotificationLog.sync();
-        await GpsLog.sync();
-        await ConfigApp.sync();
+        await Role.sync({ alter: true });
+        await Student.sync({ alter: true });
+        await User.sync({ alter: true });
+        await Attendance.sync({ alter: true });
+        await NotificationLog.sync({ alter: true });
+        await GpsLog.sync({ alter: true });
+        await ConfigApp.sync({ alter: true });
         console.log('All models were synchronized successfully.');
     } catch (error) {
         console.error(`Unable to synchronize the database:`,error);
