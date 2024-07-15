@@ -9,11 +9,11 @@ pipeline {
                     if (fileExists('api-absekol-backeend')) {
                         dir('api-absekol-backeend') {
                             sh 'git fetch'
-                            sh 'git checkout main'
-                            sh 'git pull origin main'
+                            sh 'git checkout master'
+                            sh 'git pull origin master'
                         }
                     } else {
-                        sh 'git clone -b main https://github.com/Ranur-react/api-absekol-backeend.git'
+                        sh 'git clone -b master https://github.com/Ranur-react/api-absekol-backeend.git'
                     }
                 }
             }
@@ -21,8 +21,8 @@ pipeline {
         stage('Copy .env File') {
             steps {
                 script {
-                    sh 'cat /mnt/env-aset/wabot/absekol.env'
-                    sh 'cp /mnt/env-aset/wabot/absekol.env api-absekol-backeend/.env'
+                    sh 'cat /mnt/env-aset/api/absekol.env'
+                    sh 'cp /mnt/env-aset/api/absekol.env api-absekol-backeend/.env'
                     sh 'cat api-absekol-backeend/.env'
                 }
             }
