@@ -61,6 +61,7 @@ const registerUser = async (content) => {
                 await createStudent({
                     nisn: content.nisn,
                     nama: content.nama,
+                    jurusan: content.jurusan,
                     jenisKelamin: content.jenisKelamin,
                     tempatLahir: content.tempatLahir,
                     tanggalLahir: content.tanggalLahir,
