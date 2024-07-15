@@ -5,11 +5,11 @@ FROM node:latest
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Install OpenSSH server and Git
-RUN apt-get update && \
-    apt-get install -y openssh-server git && \
-    mkdir /var/run/sshd
+# RUN apt-get update && \
+#     apt-get install -y openssh-server git && \
+#     mkdir /var/run/sshd
 
-# Expose SSH port
+# # Expose SSH port
 EXPOSE 22
 
 # Create app directory
