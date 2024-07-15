@@ -71,7 +71,7 @@ pipeline {
             echo 'This will run only if successful'
         }
         failure {
-            echo 'This will run only if failed '
+            echo 'This will run only if failed'
         }
     }
 }
