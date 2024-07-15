@@ -24,7 +24,7 @@ RUN npm install
 # Bundle app source
 # COPY /node-glints/. .
 # COPY /waweb-api/. .
-COPY /absekol-backend/. .
+COPY /. .
 
 # Expose the Node.js app port
 EXPOSE 3002
