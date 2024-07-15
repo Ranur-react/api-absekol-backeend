@@ -59,7 +59,7 @@ pipeline {
         }
         stage('Run New Container') {
             steps {
-                sh 'docker run -d --name node2 -p 212:22 -p 3002:3002 absekol-api'
+                sh 'docker run -d --name node2 -p 3002:3002 absekol-api'
             }
         }
     }
